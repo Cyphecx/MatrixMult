@@ -30,13 +30,32 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    int num_sizes = 8;
-    int sizes[] = {10, 100, 300, 500, 800, 1000, 2000, 3000};
     /* int num_sizes = 4; */
     /* int sizes[] = {10, 100, 300, 500}; */
     /* int num_sizes = 1; */
     /* int sizes[] = {4}; */
 
+    int num_sizes = 8;
+    int* sizes;
+
+    int cuda_vals[] = {10, 100, 300, 500, 800, 1000, 2000, 3000, 5000, 8000, 10000, 14000, 18000, 20000};
+    int std_vals[] = {10, 100, 300, 500, 800, 1000, 2000, 3000};
+    switch (mode) {
+        case CUDA:
+            num_sizes = 14;
+            sizes = malloc(num_sizes * sizeof(int));
+            for(int i = 0; i < num_sizes; ++i ){
+                sizes[i] = cuda_vals[i];
+            }
+
+            break;
+        default:
+            num_sizes = 8;
+            sizes = malloc(num_sizes * sizeof(int));
+            for(int i = 0; i < num_sizes; ++i ){
+                sizes[i] = std_vals[i];
+            }
+    }
     if (rank == 0) {
         /* Datatype* parallel_output = initMatrix(size); */
         /* Datatype* cuda_output = initMatrix(size); */
